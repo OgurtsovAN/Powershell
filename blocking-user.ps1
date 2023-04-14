@@ -45,7 +45,7 @@ $LotusPath = $ParentFolder +  "\Logs\stdout.txt"
 $ComputerName = "$env:computername.$env:userdnsdomain"
 
 # список шар с перемещаемыми профилями пользователей
-$UsersRoamingProfiles = "\\SRVFILES-CRT\UsersData2","\\SRVFILES-KRML\UsersData2","\\srvfiles2\usersdata2","\\SRVFILES2\XA-UserProfiles","\\SRVFILES2\usersdata1","\\SRVFILESGRK\UsersData","\\SRVFILESESC\UsersData2"
+$UsersRoamingProfiles = "\\Share1\UsersData2","\\Share2\UsersData2","\\share3\usersdata2","\\Share4\XA-UserProfiles","\\Share5\usersdata1","\\Share6\UsersData","\\Share7\UsersData2"
 
 # домен
 $Domain = "domen1.akbars.ru"
@@ -68,8 +68,8 @@ catch{}
 ### отправка smtp сообщения 
 function SendEmail ([string]$strMessage,$recipient)
 {   
-$sender = 'noreply@akbars.ru'
-$recipient += 'aydar@akbars.ru','Tisovski@akbars.ru','OgurtsovAN@akbars.ru'
+$sender = 'noreply@domen.ru'
+$recipient += 'fio1@domen.ru','fio2@akbars.ru','OgurtsovAN@domen.ru'
 $Subject = "Блокирование УЗ пользователей по заявке № $documnumber"
 $SMTPServer = '192.168.8.243'
 $Body = "Данное уведомление отправлено вам автоматически от 'Робот ОЭРМиСА'.`n`n"
@@ -384,9 +384,9 @@ function MainFunc
   $MOcred = New-Object System.Management.Automation.PsCredential("domen3\abs",$mofs_password)
 
   # OU с уволенными для каждого домена         
-  $ABBpath = "OU=Увольнение,OU=Отключенные пользователи,OU=Пользователи и группы,OU=Головной офис,DC=domen1,DC=akbars,DC=ru"
-  $FILpath = "OU=Увольнение,OU=Отключенные пользователи,DC=fil,DC=domen1,DC=akbars,DC=ru"
-  $MOpath = "OU=Увольнение,OU=Отключенные пользователи,DC=domen3,DC=akbars,DC=ru"
+  $ABBpath = "OU=Увольнение,OU=Отключенные пользователи,OU=Пользователи и группы,OU=Головной офис,DC=domen1,DC=domen,DC=ru"
+  $FILpath = "OU=Увольнение,OU=Отключенные пользователи,DC=fil,DC=domen1,DC=domen,DC=ru"
+  $MOpath = "OU=Увольнение,OU=Отключенные пользователи,DC=domen3,DC=domen,DC=ru"
 
  # определяем тип заявки
   if ($blockingreason -eq "2") {$blockingreason = "Перевод из другого подразделения"}
@@ -417,9 +417,9 @@ function MainFunc
     ### обьявляем переменные
     
      # список доменов для поиска Z УЗ
-     $ABBSrv = "domen1.akbars.ru"
-     $FILSrv = "fil.domen1.akbars.ru"
-     $MOSrv = "domen3.domen1.akbars.ru"     
+     $ABBSrv = "domen1.domen.ru"
+     $FILSrv = "fil.domen1.domen.ru"
+     $MOSrv = "domen3.domen1.domen.ru"     
      
      # поиск УЗ без ТН
     $NoTabUserslist = Get-ADUser -Filter "(((name -like '*$AdUserName*') -or (displayName -like '*$AdUserName*')) -and (SamAccountName -notlike 'z-*'))"  -Server $Domain -Properties displayName,Description,homeMDB,wWWHomePage,pager,extensionAttribute15,manager -Credential $ABBcred | where {$_.distinguishedName -notlike $ABBpath -and $_.wWWHomePage.count -like 0}
@@ -587,9 +587,9 @@ function MainFunc
    elseif ($UsersListCount -ne 0 -and $blockingreason -eq "Отпуск по уходу за ребенком")
    { 
      # OU для декретных
-     $ABBpathD = "OU=Декретный отпуск,OU=Отключенные пользователи,OU=Пользователи и группы,OU=Головной офис,DC=domen1,DC=akbars,DC=ru"
-     $FILpatD = "OU=Декретный отпуск,OU=Отключенные пользователи,DC=fil,DC=domen1,DC=akbars,DC=ru"
-     $MOpathD = "OU=Декретный отпуск,OU=Отключенные пользователи,DC=domen3,DC=akbars,DC=ru"
+     $ABBpathD = "OU=Декретный отпуск,OU=Отключенные пользователи,OU=Пользователи и группы,OU=Головной офис,DC=domen1,DC=domen,DC=ru"
+     $FILpatD = "OU=Декретный отпуск,OU=Отключенные пользователи,DC=fil,DC=domen1,DC=domen,DC=ru"
+     $MOpathD = "OU=Декретный отпуск,OU=Отключенные пользователи,DC=domen3,DC=domen,DC=ru"
 
      if ($TabUsersListCount -eq 1)
      {
