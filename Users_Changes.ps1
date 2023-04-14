@@ -7,11 +7,11 @@ $path = "\\Ogurtsov\Users_Changes_$dateLOG.csv"
 $LogFilePath  = "\\domen1\Ogurtsov\Users_Changes_Errors_$dateLOG.txt"
 
 # домены
-$domainABB = "domen1.akbars.ru"
-$domainFIL = "domen2.akbars.ru"
+$domainAAA = "domen1.domen.ru"
+$domainFFF = "domen2.domen.ru"
 
 # SQL сервер
-$server = "sql123.domen1.akbars.ru\db4,1454"
+$server = "sql123.domen1.domen.ru\db4,1454"
 $database = "DWDATA_123"
 
 # креды для подключения к SQL
@@ -300,23 +300,23 @@ foreach ($user in $users)
 {
 $double = @()
 $UserEmail = $null
-$userABB =$null
-$userFIL =$null
+$userAAA =$null
+$userFFF =$null
 # текущая дата и время
 $date = Get-Date -Format "dd.MM.yyyy HH.mm"
 # ищем пользователей по Email
 [string]$UserEmail = $user.email
 try {
-$userABB = Get-ADUser -Filter {(Enabled -eq $true) -and (mail -eq $UserEmail) -and (SamAccountName -notlike "*-*") -and (description -notlike "*1/40*")} -Properties mail,description,DisplayName,title,department,streetAddress,ipPhone,OfficePhone,wWWHomePage,HomePage,employeeID,extensionAttribute2,extensionAttribute3,extensionAttribute4,extensionAttribute5,manager  -Server $domainABB
-$userFIL = Get-ADUser -Filter {(Enabled -eq $true) -and (mail -eq $UserEmail) -and (SamAccountName -notlike "*-*") -and (description -notlike "*1/40*")} -Properties mail,description,DisplayName,title,department,streetAddress,ipPhone,OfficePhone,wWWHomePage,HomePage,employeeID,extensionAttribute2,extensionAttribute3,extensionAttribute4,extensionAttribute5,manager  -Server $domainFIL
+$userAAA = Get-ADUser -Filter {(Enabled -eq $true) -and (mail -eq $UserEmail) -and (SamAccountName -notlike "*-*") -and (description -notlike "*1/40*")} -Properties mail,description,DisplayName,title,department,streetAddress,ipPhone,OfficePhone,wWWHomePage,HomePage,employeeID,extensionAttribute2,extensionAttribute3,extensionAttribute4,extensionAttribute5,manager  -Server $domainABB
+$userFFF = Get-ADUser -Filter {(Enabled -eq $true) -and (mail -eq $UserEmail) -and (SamAccountName -notlike "*-*") -and (description -notlike "*1/40*")} -Properties mail,description,DisplayName,title,department,streetAddress,ipPhone,OfficePhone,wWWHomePage,HomePage,employeeID,extensionAttribute2,extensionAttribute3,extensionAttribute4,extensionAttribute5,manager  -Server $domainFIL
 }
 catch {}
-     # если пользователь из ABB
-     if ($userABB -and @($userABB).Count -eq 1) { CheckUserChanges -UserChanges $userABB -domain $domainABB -Cred $ABBcred}
-     # если пользователь из FIL
-     elseif ($userFIL -and @($userABB).Count -eq 1) { CheckUserChanges -UserChanges $userFIL -domain $domainFIL -Cred $FILcred}
-     elseif (@($userABB).Count -gt 1) {$double +=$userABB}
-     elseif (@($userFIL).Count -gt 1) {$double +=$userFIL}
+     # если пользователь из AAA
+     if ($userAAA -and @($userAAA).Count -eq 1) { CheckUserChanges -UserChanges $userAAA -domain $domainAAA -Cred $AAAcred}
+     # если пользователь из FFF
+     elseif ($userFFF -and @($userAAA).Count -eq 1) { CheckUserChanges -UserChanges $userFFF -domain $domainFFF -Cred $FFFcred}
+     elseif (@($userAAA).Count -gt 1) {$double +=$userAAA}
+     elseif (@($userFFF).Count -gt 1) {$double +=$userFFF}
     
 }
 
